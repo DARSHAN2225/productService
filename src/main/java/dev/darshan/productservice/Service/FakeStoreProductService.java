@@ -4,6 +4,9 @@ import dev.darshan.productservice.dtos.FakeStoreProductDto;
 import dev.darshan.productservice.dtos.GenericProductDto;
 import dev.darshan.productservice.models.Product;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.boot.autoconfigure.web.client.RestTemplateBuilderConfigurer;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
@@ -16,36 +19,57 @@ public class FakeStoreProductService implements ProductService {
 
     private RestTemplateBuilder restTemplateBuilder;
 
-    private String getProductRequestUrl ="https://fakestoreapi.com/products/{id}";
-     
-    private String createProductRequestUrl ="https://fakestoreapi.com/products";
+    private String getProductRequestUrl = "https://fakestoreapi.com/products/{id}";
 
-    public FakeStoreProductService(RestTemplateBuilder restTemplateBuilder){
-           this.restTemplateBuilder=restTemplateBuilder;
+    private String createProductRequestUrl = "https://fakestoreapi.com/products";
+
+    private String productRequestsBaseUrl = "https://fakestoreapi.com/products";
+
+
+    public FakeStoreProductService(RestTemplateBuilder restTemplateBuilder) {
+        this.restTemplateBuilder = restTemplateBuilder;
     }
 
-    public GenericProductDto creatProduct(GenericProductDto product){
-      RestTemplate restTemplate = restTemplateBuilder.build();
-      ResponseEntity<GenericProductDto> response = restTemplate.postForEntity(createProductRequestUrl,product,GenericProductDto.class);
-      return response.getBody();
+    public GenericProductDto creatProduct(GenericProductDto product) {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        ResponseEntity<GenericProductDto> response = restTemplate.postForEntity(createProductRequestUrl, product, GenericProductDto.class);
+        return response.getBody();
     }
 
     @Override
     public GenericProductDto getProductById(Long id) {
-          //FakeStoreProductService fakeStoreProductService = new FakeStoreProductService();
-            
-          RestTemplate restTemplate =restTemplateBuilder.build();
-          ResponseEntity<FakeStoreProductDto> response =restTemplate.getForEntity(getProductRequestUrl,FakeStoreProductDto.class,id);
+        //FakeStoreProductService fakeStoreProductService = new FakeStoreProductService();
+
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        ResponseEntity<FakeStoreProductDto> response = restTemplate.getForEntity(getProductRequestUrl, FakeStoreProductDto.class, id);
 
         FakeStoreProductDto fakeStoreProductDto = response.getBody();
 
-        GenericProductDto product =new GenericProductDto();
-              product.setImage(fakeStoreProductDto.getImage());
-              product.setDescription(fakeStoreProductDto.getDescription());
-              product.setTitle(fakeStoreProductDto.getTitle());
-              product.setPrice(fakeStoreProductDto.getPrice());
-              product.setCategory(fakeStoreProductDto.getCategory());
-              return product; 
+        GenericProductDto product = new GenericProductDto();
+        product.setImage(fakeStoreProductDto.getImage());
+        product.setDescription(fakeStoreProductDto.getDescription());
+        product.setTitle(fakeStoreProductDto.getTitle());
+        product.setPrice(fakeStoreProductDto.getPrice());
+        product.setCategory(fakeStoreProductDto.getCategory());
+        return product;
 
+    }
+
+    @Override
+    public List<GenericProductDto> getAllProduct() {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        ResponseEntity<FakeStoreProductDto[]> response =
+                restTemplate.getForEntity(productRequestsBaseUrl, FakeStoreProductDto[].class);
+        List<GenericProductDto> answer = new ArrayList<>();
+        for (FakeStoreProductDto fakeStoreProductDto : response.getBody()) {
+            GenericProductDto product = new GenericProductDto();
+            product.setImage(fakeStoreProductDto.getImage());
+            product.setDescription(fakeStoreProductDto.getDescription());
+            product.setTitle(fakeStoreProductDto.getTitle());
+            product.setPrice(fakeStoreProductDto.getPrice());
+            product.setCategory(fakeStoreProductDto.getCategory());
+            answer.add(product);
+        }
+        return answer;
     }
 }
