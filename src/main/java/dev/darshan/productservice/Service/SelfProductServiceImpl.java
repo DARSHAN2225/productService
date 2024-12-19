@@ -4,7 +4,9 @@ import dev.darshan.productservice.dtos.GenericProductDto;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+
 
 @Service("SelfProductServiceImpl")
 public class SelfProductServiceImpl implements ProductService {

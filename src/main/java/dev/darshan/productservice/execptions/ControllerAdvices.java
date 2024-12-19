@@ -9,14 +9,26 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ControllerAdvices {
 
-
-    @ExceptionHandler(ArrayIndexOutOfBoundsException.class)
-    public ResponseEntity<ExceptionDto> handleNotFoundException(ArrayIndexOutOfBoundsException notFoundExecption){
-
-        return  new ResponseEntity(new ExceptionDto(
-                HttpStatus.NOT_FOUND,notFoundExecption.getMessage()),
-                HttpStatus.NOT_FOUND
-        );
-    }
+    //    @ExceptionHandler(NotFoundException.class)
+//    private ResponseEntity<ExceptionDto> handleNotFoundException(
+//            NotFoundException notFoundException
+//    ) {
+//
+//        return new ResponseEntity(
+//                new ExceptionDto(HttpStatus.NOT_FOUND, notFoundException.getMessage()),
+//                HttpStatus.NOT_FOUND
+//        );
+//    }
+//
+//    @ExceptionHandler(ArrayIndexOutOfBoundsException.class)
+//    private ResponseEntity<ExceptionDto> handleArrayIndexOutOfBound(
+//            ArrayIndexOutOfBoundsException notFoundException
+//    ) {
+//
+//        return new ResponseEntity(
+//                new ExceptionDto(HttpStatus.NOT_FOUND, notFoundException.getMessage()),
+//                HttpStatus.NOT_FOUND
+//        );
+//    }
 }
 
