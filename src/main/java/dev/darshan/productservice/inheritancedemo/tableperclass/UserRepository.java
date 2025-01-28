@@ -1,10 +1,10 @@
-package dev.darshan.productservice.inheritancedemo.singletable;
+package dev.darshan.productservice.inheritancedemo.tableperclass;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository("st_ur")
+@Repository("tbc_ur")
 public interface UserRepository
         extends JpaRepository<User, Long> {
 

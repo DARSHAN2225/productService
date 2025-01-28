@@ -1,12 +1,15 @@
 package dev.darshan.productservice;
 
-import dev.darshan.productservice.inheritancedemo.singletable.Mentor;
-import dev.darshan.productservice.inheritancedemo.singletable.MentorRepository;
-import dev.darshan.productservice.inheritancedemo.singletable.User;
-import dev.darshan.productservice.inheritancedemo.singletable.UserRepository;
+import dev.darshan.productservice.inheritancedemo.tableperclass.Mentor;
+import dev.darshan.productservice.inheritancedemo.tableperclass.MentorRepository;
+import dev.darshan.productservice.inheritancedemo.tableperclass.User;
+import dev.darshan.productservice.inheritancedemo.tableperclass.UserRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.List;
 
 @SpringBootApplication
 public class ProductserviceApplication
@@ -17,7 +20,7 @@ public class ProductserviceApplication
     private UserRepository userRepository;
 
 
-    public ProductserviceApplication(MentorRepository mentorRepository , UserRepository userRepository) {
+    public ProductserviceApplication(@Qualifier("tbc_mr") MentorRepository mentorRepository ,@Qualifier("tbc_ur") UserRepository userRepository) {
         this.mentorRepository = mentorRepository;
         this.userRepository = userRepository;
     }
@@ -41,6 +44,11 @@ public class ProductserviceApplication
        user.setEmail("partha@gmail.com");
        userRepository.save(user);
 
+       List<User> users = userRepository.findAll();
+
+       for(User u : users){
+           System.out.println(u);
+       }
 
 
     }
